@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sword of Convallaria — Guia de Mecânicas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a6230;
+    --cream: #f5edd8;
+    --parchment: #ede0c4;
+    --ink: #1c1208;
+    --ink-soft: #3a2e1a;
+    --red: #8b2020;
+    --teal: #1a5c5c;
+    --purple: #4a2a6a;
+    --green: #1a4a2a;
+    --shadow: rgba(28,18,8,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: #0d0b08;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(90,60,10,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 90%, rgba(60,30,10,0.15) 0%, transparent 55%);
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 24px 40px;
+    border-bottom: 1px solid var(--gold-dim);
+    position: relative;
+  }
+  header::after {
+    content: '';
+    display: block;
+    width: 220px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 18px auto 0;
+  }
+  .badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 6vw, 52px);
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1.1;
+    text-shadow: 0 2px 24px rgba(201,168,76,0.3);
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    font-style: italic;
+    font-size: 17px;
+    color: #b09a6e;
+    margin-top: 10px;
+    font-weight: 300;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .intro {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 40px 0 32px;
+    font-size: 16.5px;
+    line-height: 1.75;
+    color: var(--parchment);
+  }
+  .intro strong { color: var(--gold-light); }
+
+  /* NAV ÍNDICE */
+  .nav-index {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 36px;
+  }
+  .nav-index h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .nav-index ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  .nav-index ul li a {
+    color: #b09a6e;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .nav-index ul li a:hover { color: var(--gold-light); }
+  .nav-index ul li::before {
+    content: '→ ';
+    color: var(--gold-dim);
+    font-size: 12px;
+  }
+
+  /* SEÇÕES */
+  .section {
+    margin-bottom: 10px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .section:hover { border-color: rgba(201,168,76,0.35); }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    background: rgba(201,168,76,0.06);
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .section-header:hover { background: rgba(201,168,76,0.1); }
+  .section-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-arrow {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--gold-dim);
+    transition: transform 0.3s;
+  }
+  .section.open .section-arrow { transform: rotate(180deg); }
+  .section-body {
+    display: none;
+    padding: 20px 22px 24px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .section.open .section-body { display: block; }
+
+  /* CHIPS */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 16px;
+  }
+  .chip {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-family: 'Crimson Pro', serif;
+    font-weight: 600;
+  }
+  .chip.sp {
+    background: rgba(139,32,32,0.18);
+    border-color: rgba(139,32,32,0.5);
+    color: #e89090;
+  }
+  .chip.stars3 {
+    background: rgba(26,74,42,0.25);
+    border-color: rgba(60,160,90,0.45);
+    color: #90d4a8;
+  }
+  .chip.stars5 {
+    background: rgba(74,42,106,0.25);
+    border-color: rgba(150,80,200,0.45);
+    color: #c8a0e8;
+  }
+
+  /* TEXTO */
+  .section-body p {
+    font-size: 16px;
+    line-height: 1.78;
+    color: #d4c4a0;
+    margin-bottom: 12px;
+  }
+  .section-body p:last-child { margin-bottom: 0; }
+  .section-body strong { color: var(--cream); }
+  .section-body em { color: #9a8a66; font-style: italic; }
+
+  .note {
+    background: rgba(26,92,92,0.15);
+    border-left: 3px solid var(--teal);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 14.5px;
+    color: #a8c8c8;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+  .note.warn {
+    background: rgba(139,32,32,0.12);
+    border-color: var(--red);
+    color: #c89090;
+  }
+  .note.tip {
+    background: rgba(26,74,42,0.15);
+    border-color: #2a7a4a;
+    color: #90c8a0;
+  }
+  .note.purple {
+    background: rgba(74,42,106,0.15);
+    border-color: #7a4aaa;
+    color: #c0a0d8;
+  }
+
+  /* DIVIDER */
+  .cat-divider {
+    text-align: center;
+    margin: 40px 0 18px;
+    position: relative;
+  }
+  .cat-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .cat-divider span {
+    position: relative;
+    background: #0d0b08;
+    padding: 0 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  /* GLOSSÁRIO */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  @media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; } }
+  .gloss-item {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 4px;
+    padding: 10px 14px;
+  }
+  .gloss-term {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .gloss-def {
+    font-size: 13.5px;
+    color: #b0a080;
+    line-height: 1.55;
+  }
+
+  /* ESTRELAS */
+  .star-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 14.5px;
+  }
+  .star-table th {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    text-align: left;
+  }
+  .star-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    color: #c4b490;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  .star-table tr:last-child td { border-bottom: none; }
+  .star-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .star-badge.s3 { background: rgba(26,74,42,0.3); border: 1px solid #2a7a4a; color: #90d4a8; }
+  .star-badge.s4 { background: rgba(180,130,20,0.2); border: 1px solid #b08020; color: #e0c060; }
+  .star-badge.s5 { background: rgba(74,42,106,0.3); border: 1px solid #7a4aaa; color: #c8a0e8; }
+
+  /* SINERGIA */
+  .synergy-card {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .synergy-title {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold-light);
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .synergy-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .synergy-card p {
+    font-size: 14.5px !important;
+    color: #b0a080 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 0 !important;
+  }
+  .faction-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+  }
+  .faction-convalaria { background: rgba(60,120,60,0.2); border: 1px solid #3a7a3a; color: #90c890; }
+  .faction-union { background: rgba(60,60,140,0.2); border: 1px solid #4a4aaa; color: #9090d8; }
+  .faction-misto { background: rgba(120,60,20,0.2); border: 1px solid #8a5020; color: #d0a060; }
+
+  /* DICAS */
+  .tip-list { margin-top: 12px; }
+  .tip-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    align-items: flex-start;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-num {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--gold-dim);
+    line-height: 1;
+    min-width: 28px;
+    padding-top: 2px;
+  }
+  .tip-text { font-size: 15px; color: #c4b490; line-height: 1.7; }
+  .tip-text strong { color: var(--cream); }
+
+  /* POR ONDE COMEÇAR */
+  .step-list { margin-top: 12px; }
+  .step-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .step-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: var(--gold-light);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content strong {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .step-content p {
+    font-size: 14.5px !important;
+    color: #b0a080 !important;
+    line-height: 1.65 !important;
+    margin-bottom: 0 !important;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 13px;
+    color: var(--gold-dim);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">⚔ Guia da Comunidade</div>
+  <h1>Sword of Convallaria</h1>
+  <p class="subtitle">Guia Completo de Mecânicas para Iniciantes — Conteúdo: Rankan &nbsp;·&nbsp; Edição: Muraka</p>
+</header>
+
+<div class="container">
+
+  <div class="intro">
+    Este guia cobre as principais <strong>categorias de habilidades e mecânicas</strong> do jogo, com exemplos de personagens que as executam bem, dicas de sinergia entre facções, glossário de termos e um caminho sugerido para quem está começando. Use isso como referência para montar seu time com mais consciência.
+  </div>
+
+  <!-- ÍNDICE -->
+  <div class="nav-index">
+    <h3>Índice</h3>
+    <ul>
+      <li><a href="#glossario">Glossário de Termos</a></li>
+      <li><a href="#estrelas">Sistema de Estrelas e Raridade</a></li>
+      <li><a href="#ofensivas">Mecânicas Ofensivas</a></li>
+      <li><a href="#utilitarias">Mecânicas Utilitárias</a></li>
+      <li><a href="#defensivas">Mecânicas Defensivas</a></li>
+      <li><a href="#especiais">Mecânicas Especiais</a></li>
+      <li><a href="#sinergia">Facções, Categorias e Sinergias</a></li>
+      <li><a href="#dicas">Dicas para Montar um Time Eficiente</a></li>
+      <li><a href="#comecar">Por Onde Começar</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══ GLOSSÁRIO ═══ -->
+  <div class="cat-divider" id="glossario"><span>Glossário de Termos</span></div>
+
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">📖</div>
+      <div class="section-title">Termos Essenciais do Jogo</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Antes de entender as mecânicas, familiarize-se com esses termos que aparecem com frequência:</p>
+      <div class="glossary-grid">
+        <div class="gloss-item">
+          <div class="gloss-term">GEAR</div>
+          <div class="gloss-def">Equipamentos dos personagens. Melhoram atributos como ATK, DEF e HP. <em>Não alteram Speed</em> — esse é fixo por personagem.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">TRINKET</div>
+          <div class="gloss-def">Acessório especial equipável em qualquer personagem. Cada um tem um efeito único, como o <em>Scrolls of Auguste</em> (buff de speed) ou o <em>Gear do Teadon</em> (shield físico).</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">SHACKLE / UNSHACKLE</div>
+          <div class="gloss-def">Tags de skills exclusivas da facção <strong>Elaman</strong>. Skills com a tag <em>Unshackle</em> ganham efeitos adicionais quando o personagem tem stacks de <strong>Liberation</strong>.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">COOLDOWN (CD)</div>
+          <div class="gloss-def">Tempo de espera após usar uma habilidade antes de poder usá-la novamente. Mecânicas de "CD Down" reduzem esse tempo.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">UNIÃO / UNION</div>
+          <div class="gloss-def">Facção específica do jogo. Personagens da Union têm habilidades exclusivas de grupo, como Shields e skills ativadas em conjunto com outros membros da facção.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">ÉPICO / LENDÁRIO</div>
+          <div class="gloss-def">Classificação de raridade. Épico e abaixo são considerados NPC — apenas lendários são personagens jogáveis de destaque. <strong>Só lendários têm versão SP.</strong></div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">SP (SPECIAL)</div>
+          <div class="gloss-def">Versão especial de um personagem lendário existente. SP só existe para personagens <strong>lendários</strong> — não há SP de épicos. Têm kit diferente e geralmente mais poderoso que o original. Ex: <em>SP Samantha</em> é distinta da Samantha original.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">IMORTAL</div>
+          <div class="gloss-def">Personagem que não morre ao chegar a 0 HP por habilidade passiva. A única forma de eliminar imortais é empurrá-los para buracos ou usar Heal Reversal em quem se cura automaticamente.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">DEFLECTION</div>
+          <div class="gloss-def"><strong>Reduz 50% do dano recebido</strong> — dano normal ou Pierce. Funciona como o Dodge: é consumido após usar, some depois de reduzir um hit e precisa ser reaplicado. Não é permanente.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">BUFF / DEBUFF</div>
+          <div class="gloss-def">Buff é um efeito positivo aplicado no seu time. Debuff é um efeito negativo aplicado nos inimigos. Ex: Speed buff no aliado, Speed debuff no inimigo.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">AOA (AREA OF ATTACK)</div>
+          <div class="gloss-def">Ataque que atinge múltiplos alvos em área simultaneamente. Pode ser mágico ou físico — importante saber o tipo para resistir ou explorar.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">RALLY COMMAND</div>
+          <div class="gloss-def">É uma forma de Assist ATK, mas <strong>não é ativado por Assist ATK</strong>. Só funciona com membros da facção Convallaria que tenham a <em>skill de Rally</em> — precisa do Rally Command ativo + o personagem alvo ter a skill rally para ser ativado. SP Maitha é a principal portadora do Rally Command.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">BANDEIRA DE CONVALLARIA</div>
+          <div class="gloss-def">Tática avançada que custa <strong>350 TP</strong> — muito cara, já que se começa com ~400 TP com talentos upados. Invoca uma bandeira que, em área de 5 tiles, fornece: CD Down, 1 de energia, ATK e DEF por turno. Serve para <em>spammar skills</em> (usar skill todo turno). TP se ganha matando monstros e por regeneração dos talentos upados.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">ENERGIA</div>
+          <div class="gloss-def">Recurso consumido ao usar habilidades especiais. Personagens muito poderosos (Taair, Credenza) tendem a custar muita energia, exigindo suporte de geração.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">BLACK FEATHER (PENA NEGRA)</div>
+          <div class="gloss-def">Debuff aplicado por Nydia e Yserinde. Não é DoT — é um <strong>stack de dano</strong>. Quando Nydia acerta um inimigo marcado com ataque básico, o Black Feather é consumido e ativa <em>Thousand Black Feathers</em>: AoA em 2 tiles ao redor do alvo.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">DOT (DAMAGE OVER TIME)</div>
+          <div class="gloss-def">Dano contínuo aplicado por turno. Tipos: Ignição, Frostbite, Infecção, Life Loss. Muitos são stackáveis. Não é bloqueado por Dodge. <em>Pena é uma tag de skill</em>, não um DoT comum.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">TURTLE (ESTRATÉGIA)</div>
+          <div class="gloss-def">Estilo de jogo defensivo: posicionar o time em cantos protegidos e esperar o DoT matar os inimigos aos poucos, sem atacar diretamente. Requer Dodge e/ou Shield + personagens com DoT forte.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cat-divider" id="estrelas"><span>Sistema de Estrelas e Raridade</span></div>
+
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">⭐</div>
+      <div class="section-title">Por Que as Estrelas Importam</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Em Sword of Convallaria, os personagens podem ser evoluídos de <strong>3 a 5 estrelas</strong>. Essa progressão não é apenas cosmética — ela <strong>desbloqueia habilidades passivas e ativas</strong> que mudam completamente o desempenho do personagem em batalha.</p>
+      <p>Entender isso é fundamental porque o guia frequentemente menciona condições como <em>"precisa de 5 estrelas para funcionar bem"</em>. Usar um personagem abaixo da estrela ideal pode torná-lo uma das piores opções do time.</p>
+
+      <table class="star-table">
+        <tr>
+          <th>Nível</th>
+          <th>O que muda</th>
+          <th>Exemplos no guia</th>
+        </tr>
+        <tr>
+          <td><span class="star-badge s3">3 ★</span></td>
+          <td>Kit básico funcional. Alguns personagens já entregam valor real aqui — especialmente os que têm mecânicas simples e bem definidas.</td>
+          <td>Taair já fornece Speed e Energia em área com 3 estrelas.</td>
+        </tr>
+        <tr>
+          <td><span class="star-badge s4">4 ★</span></td>
+          <td>Desbloqueio de passivas intermediárias. Clara, por exemplo, começa a ficar boa como fornecedora de shield a partir daqui.</td>
+          <td>Clara (Shield): boa a partir de 4★. Shanaz começa a render melhor.</td>
+        </tr>
+        <tr>
+          <td><span class="star-badge s5">5 ★</span></td>
+          <td>Nível máximo. Habilidades mais poderosas desbloqueadas. Personagens como Credenza e Cocoa <em>só funcionam no papel que o guia descreve</em> com 5 estrelas.</td>
+          <td>Credenza (CD Down), Cocoa (Energia/CD), Shanaz (AoA) — todos dependentes de 5★.</td>
+        </tr>
+      </table>
+
+      <div class="note purple" style="margin-top:16px;">
+        💡 <strong>Dica para iniciantes:</strong> prefira investir recursos em personagens que já funcionam bem em 3–4 estrelas enquanto você conhece o jogo. Guardar recursos para levar ao máximo um personagem-chave vale mais do que distribuir estrelas para vários.
+      </div>
+      <div class="note warn" style="margin-top:10px;">
+        ⚠️ Um personagem de 5 estrelas no papel certo supera um de 5 estrelas no papel errado. Estrelas não substituem sinergia e posicionamento correto.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MECÂNICAS OFENSIVAS ═══ -->
+  <div class="cat-divider" id="ofensivas"><span>Mecânicas Ofensivas</span></div>
+
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">⚠️</div>
+      <div class="section-title">Alert — Área de Dano no Chão</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Personagens com <strong>Alert</strong> criam zonas no chão que punem o inimigo por <em>agir</em> dentro delas — não por simplesmente estar lá. O inimigo toma <strong>1 hit ao andar</strong> dentro da área e <strong>mais 1 hit ao atacar</strong> dentro dela. Se ele ficar parado, <strong>ou</strong> repetir as ações sem se mover, <strong>não toma dano novamente</strong>. Na prática, força o adversário a <strong>não se mexer</strong> — quem se move ou ataca dentro da zona é punido.</p>
+      <p>A <strong>SP Samantha</strong> vai além: o alert dela <strong>trava o turno</strong> de qualquer inimigo que não seja imune, impedindo que ele aja enquanto estiver na área.</p>
+      <div class="chips">
+        <span class="chip">Layla</span>
+        <span class="chip sp">SP Samantha</span>
+        <span class="chip">Momo</span>
+        <span class="chip sp">SP Faycal</span>
+        <span class="chip">Anna</span>
+        <span class="chip">Faycal</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">💨</div>
+      <div class="section-title">Empurrar — Deslocamento Forçado</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Habilidade que <strong>empurra inimigos</strong> para fora de posição. Extremamente útil para jogá-los em armadilhas, fora de alcance ou para dentro de buracos.</p>
+      <p>Sobre imortais: <strong>Alexei e Tristan</strong> são os verdadeiramente imortais — no modo Unlimited Resolve não morrem normalmente. <strong>Zumbi</strong> não é imortal da mesma forma: ele morre se for morto duas vezes. O buraco ajuda a matar num hit só, contornando essa mecânica.</p>
+      <div class="chips">
+        <span class="chip">Simona</span>
+        <span class="chip stars3">Papal Ice ★3</span>
+        <span class="chip">Acambe</span>
+        <span class="chip">Cocoa</span>
+        <span class="chip">Rico</span>
+        <span class="chip">Camelot</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🎯</div>
+      <div class="section-title">ST — Dano Alvo Único</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Dano concentrado em um único alvo. Ideal para eliminar ameaças específicas rapidamente. <strong>Tristan</strong> é especialmente consistente: mesmo sendo uma unidade mais antiga, está presente em <em>~95% dos bosses em 2 turnos</em>.</p>
+      <div class="chips">
+        <span class="chip">SHAMZ</span>
+        <span class="chip">Estra</span>
+        <span class="chip">Tristan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">💥</div>
+      <div class="section-title">AoA — Dano em Área</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Atingem múltiplos inimigos de uma vez. Existem variações <strong>mágica e física</strong>, então atenção ao tipo ao montar o time. Alguns personagens da lista têm limitações — Caris é inconsistente, Shanaz fica presa pelo Shackle.</p>
+      <div class="chips">
+        <span class="chip sp">SP Samantha</span>
+        <span class="chip">Kvare</span>
+        <span class="chip">Luvata</span>
+        <span class="chip">Flavia</span>
+        <span class="chip">Afra</span>
+        <span class="chip sp">SP Rawiah</span>
+        <span class="chip">Rico</span>
+        <span class="chip sp">SP Inanna</span>
+        <span class="chip">Auguste</span>
+        <span class="chip sp">SP Maitha</span>
+        <span class="chip">Parcival</span>
+        <span class="chip">Lukamar</span>
+        <span class="chip stars5">Shanaz ★5</span>
+        <span class="chip">Selina</span>
+        <span class="chip">Caris</span>
+        <span class="chip">Tristan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🗡️</div>
+      <div class="section-title">Pierce — Ignora Defesa</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Dano que <strong>atravessa a defesa do inimigo</strong>, causando um valor fixo. A única coisa que reduz esse dano é a <em>Redução de Dano Final</em> — defesa comum não funciona contra ele. Ótimo contra inimigos com defesa muito alta.</p>
+      <div class="chips">
+        <span class="chip">Kvare</span>
+        <span class="chip sp">SP Maitha</span>
+        <span class="chip">Agatha</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ UTILITÁRIAS ═══ -->
+  <div class="cat-divider" id="utilitarias"><span>Mecânicas Utilitárias</span></div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🌀</div>
+      <div class="section-title">Dodge — Esquiva</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Personagens com Dodge conseguem esquivar de ataques single-target, tornando-se praticamente <strong>intangíveis</strong> em estágios de ataques diretos. Cada Dodge evita <strong>1 ataque individual</strong> por vez — não funciona contra o segundo hit de habilidades multi-hit, a menos que esteja empilhado. Em cantos estreitos é devastador.</p>
+      <p><strong>Pooch</strong> é a maior referência: a skill dela <em>Spotlight Entrance</em> concede até 8 Dodges, tornando-a praticamente intangível em estágios de ataques single-target.</p>
+      <div class="chips">
+        <span class="chip">Pooch</span>
+        <span class="chip sp">Rawiah SP</span>
+        <span class="chip"><em>+ skills de Dodge por 2 de custo</em></span>
+      </div>
+      <div class="note warn">⚠️ Fraqueza: Dodge não funciona contra AoA, DoT ou dano de terreno — apenas bloqueia ataques single-target diretos.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">⏬</div>
+      <div class="section-title">CD Down — Redução de Cooldown</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Reduz o tempo de espera das <strong>habilidades aliadas</strong>. Importante: atualmente <em>não é possível aumentar o CD dos inimigos</em> — CD Down só funciona no próprio time. <strong>Credenza</strong> é a única que realmente entrega isso de forma consistente, mas exige 5 estrelas. Cocoa e Acambe funcionam de forma mais limitada e dependem da <em>bandeira de Convallaria em campo</em>.</p>
+      <div class="chips">
+        <span class="chip stars5">Credenza ★5</span>
+        <span class="chip stars5">Cocoa ★5</span>
+        <span class="chip stars5">Acambe ★5</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🤝</div>
+      <div class="section-title">Assist ATK — Ataque em Conjunto</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Quando um aliado ataca, o personagem com Assist ATK <strong>ataca junto automaticamente</strong>. O <em>Rally Command</em> é uma forma de Assist ATK, mas com regras próprias: <strong>não é ativado por Assist ATK comum</strong>. Para funcionar, é preciso que o personagem que vai atacar em conjunto tenha a <em>skill de Rally</em> — só então o Rally Command ativa o ataque em cadeia. SP Maitha é a principal portadora do Rally Command, e só funciona com membros da facção Convallaria que tenham a skill rally.</p>
+      <div class="chips">
+        <span class="chip">Edda</span>
+        <span class="chip sp">SP Safiah</span>
+        <span class="chip">Safiah OG</span>
+        <span class="chip">Homa</span>
+        <span class="chip">Rally Command (Convallaria)</span>
+      </div>
+      <div class="note">💡 Rally Command só ativa em quem tiver a skill de Rally — não é qualquer aliado Convallaria. SP Maitha é a principal portadora do Rally Command.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">⚡</div>
+      <div class="section-title">Speed — Controle de Ordem de Turno</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p><strong>Speed é o único status que o gear não altera</strong> — ele é fixo por personagem. Define quem age primeiro. O ideal é que seu time jogue junto e antes do oponente, preparando o campo antes que os inimigos se aproximem.</p>
+      <p><strong>Taair</strong> é o único que dá Speed em área e está entre os mais rápidos do jogo. <strong>Edda</strong> aplica o único debuff de Speed Down em área — útil tanto nos inimigos quanto no próprio time para ajustar a ordem de turno.</p>
+      <p><em>Scrolls of Auguste</em> (trinket): buff pequeno de speed para quem age primeiro. <em>Urgent Order</em> (tática): dá 200 de speed para o próximo aliado que ainda não jogou naquele turno.</p>
+      <div class="chips">
+        <span class="chip">Taair</span>
+        <span class="chip">Edda</span>
+        <span class="chip"><em>Scrolls of Auguste (trinket)</em></span>
+        <span class="chip"><em>Urgent Order (tática)</em></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🔋</div>
+      <div class="section-title">Energia — Geração de Recursos</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Energia é o "mana" do jogo — consumida pelas habilidades. <strong>Taair</strong> é o melhor gerador: fornece NRG em área com <em>Seed of Wisdom</em> (+1 NRG por turno para aliados) e até 4 NRG com <em>Thousand-Mile Echo</em>. <strong>Credenza</strong> também apoia com NRG e CD Down via suas skills de suporte. <strong>Candlelight</strong> é o melhor épico nessa função — melhor que Glória e Acambe, mas inferior a Taair e Credenza. Cocoa reduz custo da próxima skill em área (precisa de 5★). Acambe pode fornecer 1 NRG a aliados próximos. Glória dá apenas 1 de energia.</p>
+      <div class="note warn">⚠️ Não coloque todos juntos: se você tem Taair, geralmente não precisa de Candlelight, Cocoa <em>e</em> Credenza ao mesmo tempo. Taair + Credenza funciona (speed + CD Down), assim como Taair + Cocoa (Cocoa é tank também, o que ajuda). Só use Taair + Candlelight em times muito específicos de rush com Luvata e Acambe.</div>
+      <div class="chips">
+        <span class="chip">Taair</span>
+        <span class="chip">Credenza</span>
+        <span class="chip stars5">Cocoa ★5</span>
+        <span class="chip">Glória</span>
+        <span class="chip">Acambe</span>
+        <span class="chip">Candlelight <em>(épico)</em></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOT -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">☠️</div>
+      <div class="section-title">DoT — Damage over Time</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p><strong>DoT (Damage over Time)</strong> é dano contínuo aplicado por turno. É uma das mecânicas mais importantes e permite a estratégia <em>turtle</em>: ficar defendendo e esperando o DoT matar o inimigo aos poucos.</p>
+      <p>Tipos de DoT confirmados: <strong>Frostbite, Ignição, Infecção</strong> e <strong>Life Loss</strong>. Todo DoT stacka até pelo menos <strong>9 stacks</strong>, multiplicando o dano por turno. Não são bloqueados por Dodge.</p>
+      <p><strong>Sobre Nydia e Black Feather:</strong> Black Feather <em>não é DoT</em> — é um <strong>debuff de stack de dano</strong>. Nydia aplica Black Feather passivamente nos inimigos ao redor. Quando ela acerta um inimigo marcado com ataque básico, o status é consumido e ativa <em>Thousand Black Feathers</em>: AoA em todos os inimigos em 2 tiles do alvo. Yserinde tem sinergia com Nydia pois também aplica Black Feather, potencializando o combo. O ataque básico da Nydia ainda aplica <strong>Frostbite</strong> por 1 turno.</p>
+      <div class="chips">
+        <span class="chip">Kvare</span>
+        <span class="chip">Pooch</span>
+        <span class="chip">Lutfi</span>
+        <span class="chip">Yserinde</span>
+        <span class="chip">Nydia</span>
+      </div>
+      <div class="note warn">⚠️ DoT é uma das fraquezas do Dodge — Dodge bloqueia ataques diretos, mas não evita dano de DoT ou dano de terreno.</div>
+      <div class="note tip" style="margin-top:8px;">💡 <strong>Estratégia Turtle:</strong> posicione um tank/dodge em canto estreito e aplique DoT nos inimigos. Kvare + Pooch + Yserinde + Nydia é um exemplo clássico — defenda e deixe o dano acumular.</div>
+    </div>
+  </div>
+
+  <!-- ═══ DEFENSIVAS ═══ -->
+  <div class="cat-divider" id="defensivas"><span>Mecânicas Defensivas</span></div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🛡️</div>
+      <div class="section-title">Shield — Escudo Protetivo</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Dar shield para aliados é raro. <strong>Clara</strong> dá shield mágico e físico, mas só fica bom com 4–5 estrelas. <strong>Yserinde</strong> dá shield e aplica <em>Deflection</em> para quem pisa nas facas dela — Deflection reduz 50% do dano recebido (normal ou Pierce), mas funciona como o Dodge: é consumido após usar e precisa ser reaplicado. Mesmo assim às vezes salva mais do que ter shield alto. Caris só cobre dano mágico e é inconsistente. O <em>trinket do Teadon</em> pode ser equipado em qualquer um e dá shield físico quando o cooldown acaba.</p>
+      <div class="chips">
+        <span class="chip stars4">Clara ★4+</span>
+        <span class="chip">Yserinde</span>
+        <span class="chip">Camelot <em>(só Union)</em></span>
+        <span class="chip"><em>Gear Signature do Teadon</em></span>
+        <span class="chip">Caris</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">💀</div>
+      <div class="section-title">Heal Reversal — Cura Vira Dano</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Mecânica recente com grande chance de nerf. Quando ativa, toda cura recebida pelo inimigo <strong>causa dano em vez de recuperar HP</strong>. Excelente para matar imortais com auto-heal (como o Zumbi e o Camelot com sua passiva de cura automática).</p>
+      <div class="chips">
+        <span class="chip">Heshan</span>
+        <span class="chip">Kiya</span>
+      </div>
+      <div class="note warn">⚠️ Por ser recente e muito poderosa, essa mecânica tem alta probabilidade de ser nerfada em atualizações futuras.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">↩️</div>
+      <div class="section-title">Counter — Devolver Dano</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Personagens que <strong>contra-atacam automaticamente</strong> quando recebem dano. Funcionam bem em posições onde recebem hits frequentes, punindo o inimigo por atacar.</p>
+      <div class="chips">
+        <span class="chip">Pamina</span>
+        <span class="chip">Pooch</span>
+        <span class="chip">Shamz</span>
+        <span class="chip">Alexei</span>
+        <span class="chip">Safiah OG</span>
+        <span class="chip">Aysha</span>
+        <span class="chip">Rico</span>
+        <span class="chip">Clara</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ESPECIAIS ═══ -->
+  <div class="cat-divider" id="especiais"><span>Mecânicas Especiais</span></div>
+
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🔮</div>
+      <div class="section-title">Summon — Invocação de Unidades</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Invocam unidades extras no campo. Funcionam bem como iscas e em missões onde é preciso pisar em áreas específicas ou carregar caixas. <strong>Atenção ao tipo do summon:</strong></p>
+      <p><strong>Temporários</strong> (desaparecem após o turno): Acambe, Safiah OG, SP Safiah, Kiyashir — não servem para carregar caixas. <strong>Permanentes</strong>: Innana OG e Flavia têm turno próprio e carregam caixas. Yeganeh é permanente mas não tem turno próprio — também não carrega caixas. <em>Melhor opção geral: Innana OG.</em></p>
+      <div class="chips">
+        <span class="chip">Innana OG</span>
+        <span class="chip">Acambe</span>
+        <span class="chip">Kiyashir</span>
+        <span class="chip">Yeganeh</span>
+        <span class="chip">Flavia</span>
+        <span class="chip">Safiah OG</span>
+        <span class="chip sp">SP Safiah</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SINERGIA ═══ -->
+  <div class="cat-divider" id="sinergia"><span>Facções, Categorias e Sinergias</span></div>
+
+  <!-- FACÇÕES NARRATIVAS -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🏰</div>
+      <div class="section-title">Facções Narrativas — Grupos de Lore</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Facções narrativas representam os <strong>grupos, nações e organizações</strong> da história do jogo. Todo personagem pertence a pelo menos uma. Elas importam para habilidades de grupo, buffs passivos e sinergias exclusivas entre membros da mesma facção.</p>
+
+      <div class="synergy-card">
+        <div class="synergy-title">⚔ SWORD OF CONVALLARIA <span class="faction-tag faction-convalaria">Facção Narrativa</span></div>
+        <div class="synergy-members">
+          <span class="chip">Maitha</span><span class="chip sp">SP Maitha</span><span class="chip">Rawiah</span><span class="chip">Inanna OG</span><span class="chip sp">SP Inanna</span><span class="chip">Faycal</span><span class="chip sp">SP Faycal</span><span class="chip">Momo</span><span class="chip">NonoWill</span>
+        </div>
+        <p>O grupo mercenário central da história, sediado na cidade de Convallaria. A facção tem maior sinergia de combate via <strong>Rally Command</strong> — ativa ataques em cadeia de todos os aliados da facção ao redor. SP Maitha é quase obrigatória no centro desse combo.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🛡 THE UNION <span class="faction-tag faction-union">Facção Narrativa</span></div>
+        <div class="synergy-members">
+          <span class="chip">Simona</span><span class="chip">Teadon</span><span class="chip">Gloria</span><span class="chip">Auguste</span><span class="chip">Camelot</span><span class="chip">Clara</span><span class="chip">Yserinde</span><span class="chip">Lutfi</span><span class="chip">Tristan</span><span class="chip">Selina</span>
+        </div>
+        <p>Facção focada em <strong>resistência e sobrevivência</strong>. Muitos personagens da Union têm shields e mecânicas defensivas. Camelot só dá shield para aliados da Union — fora dela perde parte do valor. Clara (4★+) é a melhor fornecedora de shield físico e mágico para o time. <strong>Tristan</strong> é imortal por ~2 turnos e precisa de HP baixo para maximizar seu dano — por isso shield é especialmente valioso nela: não é HP, mas protege quando sai do estado imortal.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🌙 IRIA <span class="faction-tag" style="background:rgba(80,40,100,0.2);border:1px solid #7a40aa;color:#c080e0;">Facção Narrativa</span></div>
+        <div class="synergy-members">
+          <span class="chip">Maitha</span><span class="chip">Rawiah</span><span class="chip">Inanna</span><span class="chip">Edda</span><span class="chip">Faycal</span><span class="chip">Dantalion</span><span class="chip">Magnus</span><span class="chip">Nergal</span><span class="chip">Nungal</span><span class="chip">Safiyyah</span><span class="chip">Xavier</span><span class="chip">Kvare</span><span class="chip">Lutfi</span><span class="chip">Pamina</span><span class="chip">Aysha</span><span class="chip sp">SP Rawiah</span><span class="chip sp">SP Safiah</span>
+        </div>
+        <p>Representam o povo e os habitantes nativos de Iria, a nação central da história. É a maior facção em número de personagens. Alguns dos destaques:</p>
+        <p><strong>Lutfi</strong> é um dos mais fortes em DoT — fica parado, fica invisível e intangível (ninguém pode atacá-lo enquanto durar), e o povo vai morrendo do veneno ao redor. <strong>Pamina</strong> é um dos melhores counters do jogo. <strong>Kvare</strong> tem AoA e Pierce, funcionando bem em qualquer composição que precise furar defesa alta.</p>
+        <p><strong>SP Safiah</strong> é o melhor Assist ATK do jogo — sozinha faz o time todo atacar. Só perde espaço em times bem feitos de Rally Command. <strong>SP Rawiah</strong> é extremamente versátil: anda muito, tem AoA bom, o ataque básico empurra, a 5★ joga duas vezes por turno e tem 1 Resolve.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">⛪ PAPAL STATES <span class="faction-tag" style="background:rgba(180,140,20,0.15);border:1px solid #b09020;color:#d8b840;">Facção Narrativa</span></div>
+        <div class="synergy-members">
+          <span class="chip">Samantha</span><span class="chip sp">SP Samantha</span><span class="chip">Beryl</span><span class="chip">Col</span><span class="chip">Garcia</span><span class="chip">Leonide</span><span class="chip">Miguel</span><span class="chip">Taair</span><span class="chip">Credenza</span>
+        </div>
+        <p>Facção religiosa e institucional. <strong>Taair e Credenza</strong> são Papal States e excelentes supports do grupo. <strong>SP Samantha</strong> é o grande destaque ofensivo: maior dano AoA do jogo e líder da categoria Aggression — os aliados Aggression marcam os inimigos ao atacar, e no final do turno SP Samantha causa dano massivo em todos os marcados. O alert dela ainda trava o turno de inimigos não-imunes na área.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🏔 VLDER <span class="faction-tag" style="background:rgba(20,80,80,0.2);border:1px solid #207070;color:#60b8b8;">Facção Narrativa / Raça</span></div>
+        <div class="synergy-members">
+          <span class="chip">Iggy</span><span class="chip">LilyWill</span><span class="chip">NonoWill</span><span class="chip">Cocoa</span><span class="chip">Momo</span><span class="chip">Heshan</span>
+        </div>
+        <p>Vlder não é exatamente uma nação — é uma <strong>raça de pessoas semi-animais</strong> que vivem majoritariamente nas montanhas de Iria. Os que não vivem lá estão em Convallaria ou são escravos em Elaman. <strong>Cocoa</strong> (5★) é a principal referência de Energia e CD Down. <strong>Heshan</strong> também é Vlder e é quem aplica Heal Reversal.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🎲 DRIFTER <span class="faction-tag faction-misto">Facção Narrativa</span></div>
+        <div class="synergy-members">
+          <span class="chip">Alexei</span><span class="chip">Guzman</span><span class="chip">Col</span><span class="chip">Miguel</span><span class="chip">Acambe</span><span class="chip">Edda</span><span class="chip">Clara <em>(líder/aura)</em></span><span class="chip"><em>Personagens collab</em></span>
+        </div>
+        <p>Drifter não tem vínculo nacional — são andarilhos e figuras à margem da sociedade. <strong>Clara</strong> é a líder/aura da facção, ativando bônus para os ao redor. Todos os personagens de <em>colaboração (collab) são Drifter</em> — se juntar os fortes há combinações muito poderosas. <strong>Acambe</strong> funciona como coringa de Empurrar, Summon e Energia.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIAS DE COMBATE -->
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">⚙️</div>
+      <div class="section-title">Categorias de Combate — Estilos de Batalha</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Além das facções narrativas, cada personagem pertence a <strong>categorias de combate</strong> que definem seu estilo de batalha. Essas categorias ativam sinergias com certas táticas, trinkets e habilidades passivas de outros personagens. Um personagem pode ter mais de uma categoria.</p>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🗡 AGGRESSION — Agressão</div>
+        <div class="synergy-members">
+          <span class="chip">Alexei</span><span class="chip">Guzman</span><span class="chip">Beryl</span><span class="chip">NonoWill</span><span class="chip">Samantha</span><span class="chip sp">SP Samantha <em>(líder)</em></span><span class="chip">Auguste</span>
+        </div>
+        <p>Personagens orientados ao ataque direto. <strong>SP Samantha é a líder da categoria</strong>: quando personagens Aggression atacam, eles <strong>marcam os inimigos</strong> — e no final do turno SP Samantha causa dano massivo em todos os inimigos marcados. Quanto mais Aggression no time atacando, mais inimigos marcados e mais destruidor o combo.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">💨 ALACRITY — Agilidade</div>
+        <div class="synergy-members">
+          <span class="chip">Col</span><span class="chip">Faycal</span><span class="chip">Iggy</span><span class="chip">LilyWill</span><span class="chip">Nergal</span><span class="chip">Nungal</span><span class="chip">Rawiah</span>
+        </div>
+        <p>Personagens velozes e ágeis, especializados em <strong>mobilidade, esquiva e reposicionamento</strong>. Tendem a ter Speed alto naturalmente. Atenção: <em>SP Rawiah e SP Faycal não são Alacrity</em> — apenas as versões base.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">📜 DISCIPLINE — Disciplina</div>
+        <div class="synergy-members">
+          <span class="chip">Inanna</span><span class="chip">Leonide</span><span class="chip">Miguel</span><span class="chip">Edda</span><span class="chip">Simona</span><span class="chip">Acambe</span><span class="chip">Safiyyah</span>
+        </div>
+        <p>Personagens táticos que se destacam por <strong>controle, suporte e habilidades de utilidade</strong>. Focam em manipular o campo de batalha, buffs, debuffs e posicionamento estratégico em vez de dano bruto.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🛡 FORTITUDE — Vigor</div>
+        <div class="synergy-members">
+          <span class="chip">Dantalion</span><span class="chip">Magnus</span><span class="chip">Teadon</span><span class="chip">Gloria</span><span class="chip">Inanna</span><span class="chip">Cocoa</span><span class="chip">Momo</span><span class="chip">Garcia</span><span class="chip">Xavier</span>
+        </div>
+        <p>Personagens resistentes com foco em <strong>sobrevivência, defesa e sustento</strong>. Tendem a ter HP e DEF elevados, shields e habilidades que prolongam o tempo em campo. Funcionam como âncoras do time, segurando o front enquanto os aliados causam dano.</p>
+      </div>
+
+      <div class="note" style="margin-top:12px;">
+        💡 <strong>Por que isso importa?</strong> Certas táticas e passivas de personagens dizem coisas como "buffa aliados Aggression" ou "reduz cooldown de aliados Discipline". Saber a categoria dos seus personagens permite ativar essas sinergias intencionalmente.
+      </div>
+    </div>
+  </div>
+
+  <!-- COMBOS -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🔗</div>
+      <div class="section-title">Combos Práticos de Sinergia</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="synergy-card">
+        <div class="synergy-title">💀 ANTI-IMORTAL</div>
+        <div class="synergy-members">
+          <span class="chip">Simona</span><span class="chip">Cocoa</span><span class="chip">Rico</span><span class="chip">Camelot</span><span class="chip">Heshan</span><span class="chip">Kiya</span>
+        </div>
+        <p><strong>Alexei e Tristan</strong> são os verdadeiramente imortais (Unlimited Resolve). <strong>Zumbi</strong> precisa ser morto duas vezes — o buraco resolve num hit só. Para todos eles: <strong>Empurrar para buracos</strong> (Simona, Rico, Cocoa, Camelot) em mapas que permitem, ou <strong>Heal Reversal</strong> (Heshan, Kiya) para quem tem auto-heal — ideal em mapas abertos.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">⚡ SPEED + CONTROLE DE CAMPO</div>
+        <div class="synergy-members">
+          <span class="chip">Taair</span><span class="chip">Edda</span><span class="chip sp">SP Maitha</span><span class="chip"><em>Scrolls of Auguste</em></span><span class="chip"><em>Urgent Order</em></span>
+        </div>
+        <p>Taair dá Speed em área. Edda aplica Speed Down nos inimigos. Urgent Order garante que um aliado age imediatamente. Com esse combo, seu time age, posiciona e prepara o campo <em>antes que os inimigos se movam</em>.</p>
+      </div>
+
+      <div class="synergy-card">
+        <div class="synergy-title">🌟 PERSONAGENS CROSS-FACÇÃO VERSÁTEIS</div>
+        <div class="synergy-members">
+          <span class="chip">Kvare</span><span class="chip">Rico</span><span class="chip">Acambe</span><span class="chip">Tristan</span><span class="chip">Pooch</span>
+        </div>
+        <p>Funcionam bem em qualquer composição. Kvare (AoA + Pierce), Rico (AoA + Empurrar), Acambe (Empurrar + Summon + Energia), Tristan (ST consistente), Pooch (Dodge + Counter em canto). São os "coringas" para preencher lacunas sem depender de facção.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DICAS ═══ -->
+  <div class="cat-divider" id="dicas"><span>Dicas para Montar um Time Eficiente</span></div>
+
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🧠</div>
+      <div class="section-title">Princípios de Composição de Time</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="tip-list">
+        <div class="tip-item">
+          <div class="tip-num">1</div>
+          <div class="tip-text"><strong>Tenha sempre uma fonte de Speed.</strong> Quem age primeiro controla o ritmo da batalha. Taair ou a tática Urgent Order são essenciais. Um time lento que age depois do inimigo perde posicionamento antes mesmo de atacar.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">2</div>
+          <div class="tip-text"><strong>Equilibre dano ST e AoA.</strong> ST elimina ameaças pontuais; AoA limpa grupos. Um time só com AoA sofre contra bosses. Um time só com ST sofre contra hordas. Tenha pelo menos um de cada.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">3</div>
+          <div class="tip-text"><strong>Leia o mapa antes de escolher o time.</strong> Mapa com buracos? Leve um empurrador. Missão de carregar caixas? Leve Innana OG. Inimigo com auto-heal? Leve Heshan ou Kiya. O mapa dita a composição ideal.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">4</div>
+          <div class="tip-text"><strong>Gerencie energia.</strong> Personagens poderosos consomem muito. Se seu time tem Taair ou Credenza, considere incluir Candlelight ou Cocoa (5★) para não ficar sem ação nos turnos críticos.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">5</div>
+          <div class="tip-text"><strong>Atenção ao tipo de dano.</strong> AoA mágico e físico são resistidos de formas diferentes. Ter os dois tipos no time evita que um inimigo com alta resistência mágica, por exemplo, anule metade do seu output de dano.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">6</div>
+          <div class="tip-text"><strong>Posicionamento > raridade.</strong> Um personagem 3 estrelas bem posicionado (Pooch num canto com Dodge) pode ser mais eficiente que um lendário mal utilizado. Entender o mapa e as mecânicas vale mais do que ter os personagens mais raros.</div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-num">7</div>
+          <div class="tip-text"><strong>Não ignore os trinkets.</strong> O <em>Scrolls of Auguste</em> e o <em>Gear do Teadon</em> são equipáveis em qualquer personagem e podem preencher lacunas do time (speed e shield) sem depender de um personagem específico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ POR ONDE COMEÇAR ═══ -->
+  <div class="cat-divider" id="comecar"><span>Por Onde Começar</span></div>
+
+  <div class="section open">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-icon">🗺️</div>
+      <div class="section-title">Caminho Sugerido para Iniciantes</div>
+      <div class="section-arrow">▼</div>
+    </div>
+    <div class="section-body">
+      <p>Com tantas mecânicas, pode parecer difícil saber por onde começar. A sugestão abaixo representa uma ordem de prioridade para quem está aprendendo — não significa que o resto não importa, mas que esse é o caminho mais eficiente para crescer no jogo.</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-circle">1</div>
+          <div class="step-content">
+            <strong>ENTENDA SPEED PRIMEIRO</strong>
+            <p>Antes de qualquer coisa, aprenda como Speed funciona. Quem age primeiro tem vantagem enorme. Foque em ter pelo menos um personagem rápido (Taair é o ideal) ou a tática Urgent Order para garantir que seu time age antes do inimigo.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <div class="step-content">
+            <strong>MONTE UMA BASE DE DANO ST + AoA</strong>
+            <p>Tristan é acessível e consistente para ST — bom ponto de partida. Para AoA, priorize personagens que não dependam de 5 estrelas para funcionar. Ter os dois tipos de dano já permite completar a maioria dos conteúdos iniciais.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <div class="step-content">
+            <strong>APRENDA A LER O MAPA</strong>
+            <p>Identifique: há buracos? Precisa de empurrar? É missão de caixas? Inimigo imortal? Responder essas perguntas antes de montar o time economiza muitas derrotas. O mapa diz quais mecânicas são necessárias.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">4</div>
+          <div class="step-content">
+            <strong>INCLUA UM PERSONAGEM DE SUPORTE DEFENSIVO</strong>
+            <p>Clara (4★+) ou Yserinde fornecem shield para o time. Um tank com Dodge (Pooch em canto) também resolve bem. Ter alguma resiliência evita que o time inteiro caia por AoA inesperado.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">5</div>
+          <div class="step-content">
+            <strong>INVISTA RECURSOS EM UM NÚCLEO ANTES DE DIVERSIFICAR</strong>
+            <p>Escolha 4–5 personagens que formem um núcleo e leve-os ao máximo de estrelas possível. Os melhores para iniciantes — funcionam bem e fazem tudo sem depender de outros personagens específicos: <strong>Taair, SP Inanna, SP Samantha e SP Maitha</strong>. Os demais personagens da Convallaria são bons, mas muitos são antigos — invista com critério.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-circle">6</div>
+          <div class="step-content">
+            <strong>EXPLORE SINERGIAS AO SEU RITMO</strong>
+            <p>Com o núcleo funcionando, comece a experimentar combos: Empurrar + buraco, Rally Command + SP Maitha, Heal Reversal contra imortais. As mecânicas fazem mais sentido quando você já entende a base do jogo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note tip" style="margin-top:16px;">
+        ✅ <strong>Resumo rápido:</strong> Speed → ST/AoA → Leitura de mapa → Defesa básica → Núcleo evoluído → Sinergias avançadas.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  Guia compilado pela comunidade de Sword of Convallaria — canal #convallaria<br>
+  Conteúdo: Rankan &nbsp;·&nbsp; Edição: Muraka
+</footer>
+
+<script>
+  function toggle(header) {
+    const section = header.parentElement;
+    section.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
